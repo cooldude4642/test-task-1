@@ -1,6 +1,32 @@
-import '@/styles/globals.css'
+import 'styles/globals.css'
 import type { AppProps } from 'next/app'
+import { Raleway } from 'next/font/google'
+import cn from 'classnames'
+
+export const raleway = Raleway({
+	subsets: ['latin', 'cyrillic'],
+	weight: [
+		'100',
+		'200',
+		'300',
+		'400',
+		'500',
+		'600',
+		'700',
+		'800',
+		'900',
+	],
+	display: 'swap',
+	preload: true,
+})
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+		<main className={ cn(
+			raleway.className,
+			'p-16'
+		) }>
+			<Component {...pageProps} />
+		</main>
+	)
 }
