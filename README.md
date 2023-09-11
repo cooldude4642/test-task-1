@@ -13,7 +13,7 @@ $ docker pull cooldude4642/test-task-1
 2. Запустить контейнер:
 
 ```console
-$ docker run -d -p 3000:3000 —rm cooldude4642/test-task-1
+$ docker run -d -p 3000:3000 cooldude4642/test-task-1
 ```
 
 3. Перейти на [http://localhost:3000](http://localhost:3000).
