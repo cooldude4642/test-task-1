@@ -20,13 +20,14 @@ export const raleway = Raleway({
 	preload: true,
 })
 
-export default function App({ Component, pageProps }: AppProps) {
-  return (
+export default function App ({ Component, pageProps }: AppProps) {
+	return (
 		<main className={ cn(
 			raleway.className,
-			'p-16'
-		) }>
-			<Component {...pageProps} />
+			'px-16 flex items-center justify-center h-screen',
+		) }
+		>
+			<Component { ...pageProps }/>
 		</main>
 	)
 }

@@ -1,10 +1,10 @@
-import { useRef, useState } from "react"
-import { createData } from "../helpers/create-data"
-import { Thumbs, getInitThumbs } from "../helpers/get-init-thumbs"
-import { useLeftThumb } from "./use-left-thumb"
-import { useOnChange } from "./use-on-change"
-import { useRightThumb } from "./use-right-thumb"
-import { DateSliderChangeEventHandler } from "../ui/date-slider"
+import { useRef, useState } from 'react'
+import { createData } from '../helpers/create-data'
+import type { Thumbs } from '../helpers/get-init-thumbs'
+import { getInitThumbs } from '../helpers/get-init-thumbs'
+import { useOnChange } from './use-on-change'
+import type { DateSliderChangeEventHandler } from '../ui/date-slider'
+import { useThumb } from './use-thumb'
 
 export interface useSliderParameter {
 	min: Date
@@ -22,27 +22,22 @@ export const useSlider = ({
 	onChange,
 }: useSliderParameter) => {
 	const { data, divScale, divsCount } = createData(min, max)
-
 	const trackRef = useRef<HTMLDivElement>(null)
 	const [thumbs, setThumbs] = useState<Thumbs>(getInitThumbs({ from, to, data, divScale }))
 
-	const {
-		handleLeftThumbMouseDown,
-		handleLeftThumbTouchStart,
-	} = useLeftThumb({
+	const leftThumbRef = useThumb({
 		thumbs,
 		setThumbs,
 		trackRef,
+		position: 'left',
 		divsCount,
 	})
 
-	const {
-		handleRightThumbMouseDown,
-		handleRightThumbTouchStart,
-	} = useRightThumb({
+	const rightThumbRef = useThumb({
 		thumbs,
 		setThumbs,
 		trackRef,
+		position: 'right',
 		divsCount,
 	})
 
@@ -64,9 +59,7 @@ export const useSlider = ({
 		data,
 		divScale,
 		divsCount,
-		handleLeftThumbMouseDown,
-		handleLeftThumbTouchStart,
-		handleRightThumbMouseDown,
-		handleRightThumbTouchStart,
+		leftThumbRef,
+		rightThumbRef,
 	}
 }

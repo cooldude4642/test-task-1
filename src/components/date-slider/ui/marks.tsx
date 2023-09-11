@@ -1,19 +1,27 @@
-import cn from 'classnames'
+import type { RefObject } from 'react'
 import { Fragment } from 'react'
 import { MONTHS_ABBRS } from '../config'
 import type { DateSliderData } from '../helpers/create-data'
+import { useMarks } from '../hooks/use-marks'
+import { Mark } from './mark'
 
 export interface MarksProps {
 	data: DateSliderData
 	divScale: number
+	divsCount: number
 	variant: 'months' | 'years'
+	trackRef: RefObject<HTMLElement>
 }
 
 export function Marks ({
 	data,
 	divScale,
+	divsCount,
 	variant,
+	trackRef,
 }: MarksProps) {
+	const { markWidth, isHidden } = useMarks({ variant, divsCount, trackRef })
+
 	return (
 		<>
 			{ data.map((yearData) => {
@@ -24,30 +32,32 @@ export function Marks ({
 						{ months.map(({ index, order }) => {
 							if (index === 0) {
 								return (
-									<span
+									<Mark
 										key={ order }
-										className={ cn(
-											'absolute top-[18px] w-10 text-[#333333] text-center text-[14px] leading-[18px] font-semibold',
-											variant === 'years' ? 'text-[#999999]' : 'text-[#333333]',
-										) }
-										style={ { left: `calc(${ order * divScale }% - 20px)` } }
+										divScale={ divScale }
+										isHidden={ isHidden }
+										markWidth={ markWidth }
+										order={ order }
+										type='year'
+										variant={ variant }
 									>
 										{ year }
-									</span>
+									</Mark>
 								)
 							}
 
 							return (
-								<span
+								<Mark
 									key={ order }
-									className={ cn(
-										'absolute top-[18px] w-10 text-[#999999] text-center text-[14px] leading-[18px] font-semibold',
-										variant === 'years' && 'hidden',
-									) }
-									style={ { left: `calc(${ order * divScale }% - 20px)` } }
+									divScale={ divScale }
+									isHidden={ isHidden }
+									markWidth={ markWidth }
+									order={ order }
+									type='month'
+									variant={ variant }
 								>
 									{ MONTHS_ABBRS[index] }
-								</span>
+								</Mark>
 							)
 						}) }
 					</Fragment>

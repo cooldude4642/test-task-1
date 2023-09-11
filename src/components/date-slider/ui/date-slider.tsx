@@ -2,10 +2,9 @@ import cn from 'classnames'
 import type { ComponentProps } from 'react'
 import { DEFAULT_FROM, DEFAULT_TO } from '../config'
 import { ActiveTrack } from './active-track'
-import { LeftThumb } from './left-thumb'
 import { Marks } from './marks'
-import { RightThumb } from './right-thumb'
 import { useSlider } from '../hooks/use-slider'
+import { Thumb } from './thumb'
 
 export interface DateSliderChangeEvent {
 	min: Date
@@ -40,44 +39,45 @@ export function DateSlider ({
 		data,
 		divScale,
 		divsCount,
-		handleLeftThumbMouseDown,
-		handleLeftThumbTouchStart,
-		handleRightThumbMouseDown,
-		handleRightThumbTouchStart,
-	} = useSlider({ min, max, from, to, onChange })
-	
+		leftThumbRef,
+		rightThumbRef,
+	} = useSlider({
+		min, max, from, to, onChange,
+	})
 
 	return (
-		<div className='flex items-center justify-center h-[166px] w-full'>
+		<div className='flex items-center justify-center w-full min-w-[64px] mx-[10px]'>
 			<div
 				ref={ trackRef }
 				className={ cn(
-					'w-full h-[10px] bg-[#EDF1F8] rounded-full mx-[64px] relative select-none',
+					'w-full h-[10px] bg-[#EDF1F8] rounded-full relative select-none',
 					className,
 				) }
 			>
-				<LeftThumb
+				<Thumb
+					ref={ leftThumbRef }
 					data={ data }
 					divsCount={ divsCount }
+					labelPosition='top'
 					value={ thumbs.left.currentValue }
-					onMouseDown={ handleLeftThumbMouseDown }
-					onTouchStart={ handleLeftThumbTouchStart }
 				/>
 				<ActiveTrack
 					leftValue={ thumbs.left.currentValue }
 					rightValue={ thumbs.right.currentValue }
 				/>
-				<RightThumb
-					data={ data }
-					divsCount={ divsCount }
-					value={ thumbs.right.currentValue }
-					onMouseDown={ handleRightThumbMouseDown }
-					onTouchStart={ handleRightThumbTouchStart }
-				/>
 				<Marks
 					data={ data }
 					divScale={ divScale }
+					divsCount={ divsCount }
+					trackRef={ trackRef }
 					variant={ variant }
+				/>
+				<Thumb
+					ref={ rightThumbRef }
+					data={ data }
+					divsCount={ divsCount }
+					labelPosition='bottom'
+					value={ thumbs.right.currentValue }
 				/>
 			</div>
 		</div>
